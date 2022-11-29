@@ -3,6 +3,7 @@ package com.udacity.project4.locationreminders
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,6 +23,15 @@ class RemindersActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.i("ReminderActivity", "Launched")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("ReminderActivity", "paused")
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

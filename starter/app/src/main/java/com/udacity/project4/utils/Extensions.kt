@@ -38,7 +38,7 @@ fun Fragment.setTitle(title: String) {
     }
 }
 
-fun Fragment.setDisplayHomeAsUpEnabled(bool: Boolean) {
+fun Fragment.setDisplayHomeAsUpEnableds(bool: Boolean) {
     if (activity is AppCompatActivity) {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
             bool
