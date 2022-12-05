@@ -18,7 +18,14 @@ import com.udacity.project4.locationreminders.geofence.GeofenceTransitionsJobInt
  */
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
+
+    companion object {
+        const val ACTION_GEOFENCE_EVENT =
+            "locationreminders.geofence.action.ACTION_GEOFENCE_EVENT"
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
+
 
         val geofenceEvent = GeofencingEvent.fromIntent(intent)
         if(geofenceEvent.hasError()) {

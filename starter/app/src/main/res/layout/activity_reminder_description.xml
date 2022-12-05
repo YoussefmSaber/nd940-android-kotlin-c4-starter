@@ -2,32 +2,117 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
         <!--Data item that holds the reminder details-->
         <variable
-            name="reminderDataItem"
+            name="viewModel"
             type="com.udacity.project4.locationreminders.reminderslist.ReminderDataItem" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:context=".locationreminders.ReminderDescriptionActivity">
-        <!--TODO: add the design of the reminder details-->
+        android:layout_height="match_parent">
 
-        <TextView
+        <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Reminder Details"
-            android:textSize="@dimen/text_size_large"
+            app:columnCount="3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:rowCount="5">
 
-    </LinearLayout>
+            <!-- Title -->
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/title"
+                android:textColor="@color/veryDarkTeal"
+                app:layout_column="0"
+                app:layout_row="0" />
+
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:textAlignment="center"
+                android:textColor="@color/darkTeal"
+                app:layout_column="1"
+                android:text="@{viewModel.title}"
+                app:layout_columnWeight="2"
+                app:layout_row="0"
+                tools:text="Title Here" />
+
+            <!-- Description -->
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/description"
+                android:textColor="@color/veryDarkTeal"
+                app:layout_column="0"
+                app:layout_row="1" />
+
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:textAlignment="center"
+                android:textColor="@color/darkTeal"
+                app:layout_column="1"
+                android:text="@{viewModel.description}"
+                app:layout_columnWeight="2"
+                app:layout_row="1"
+                tools:text="Description Here" />
+
+            <!-- Location -->
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/location"
+                android:textColor="@color/veryDarkTeal"
+                app:layout_column="0"
+                app:layout_row="2" />
+
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:textAlignment="center"
+                android:textColor="@color/darkTeal"
+                app:layout_column="1"
+                android:text="@{viewModel.location}"
+                app:layout_columnWeight="2"
+                app:layout_row="2"
+                tools:text="Location Here" />
+
+            <!-- Longitude -->
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/longitude"
+                android:textColor="@color/veryDarkTeal"
+                app:layout_column="0"
+                app:layout_row="3" />
+
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:textAlignment="center"
+                android:textColor="@color/darkTeal"
+                app:layout_column="1"
+                app:layout_columnWeight="2"
+                android:text="@{@string/longtitude_snippet(viewModel.longitude)}"
+                app:layout_row="3"
+                tools:text="Longitude Here" />
+
+            <!-- Latitude -->
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/latitude"
+                android:textColor="@color/veryDarkTeal"
+                app:layout_column="0"
+                app:layout_row="4" />
+
+            <TextView
+                android:layout_margin="@dimen/margin_normal"
+                android:textAlignment="center"
+                android:textColor="@color/darkTeal"
+                app:layout_column="1"
+                app:layout_columnWeight="2"
+                android:text="@{@string/latitude_snippet(viewModel.latitude)}"
+                app:layout_row="4"
+                tools:text="Latitude Here" />
+
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
