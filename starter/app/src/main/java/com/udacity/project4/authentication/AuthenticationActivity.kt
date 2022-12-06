@@ -5,16 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
+import androidx.lifecycle.Observer
+import com.firebase.ui.auth.*
 import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.databinding.ActivityAuthenticationBinding
 import com.udacity.project4.locationreminders.RemindersActivity
-import com.udacity.project4.utils.SingleLiveEvent
-import org.koin.android.ext.android.bind
 
 /**
  * This class should be the starting point of the app, It asks the users to sign in / register, and redirects the
@@ -27,6 +26,7 @@ class AuthenticationActivity : AppCompatActivity() {
         const val TAG = "Authentication Activity"
     }
 
+    private val viewModel by viewModels<LoginViewModel>()
     private lateinit var binding: ActivityAuthenticationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,11 @@ class AuthenticationActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener { launchSignInFlow() }
 
+        viewModel.authenticationState.observe(this, Observer {
+            when (it) {
+                LoginViewModel.Authentication.AUTHENTICATED -> openReminderActivity()
+            }
+        })
 
     }
 
@@ -48,7 +53,7 @@ class AuthenticationActivity : AppCompatActivity() {
                     TAG,
                     "Successfully signed in user ${FirebaseAuth.getInstance().currentUser?.displayName}!"
                 )
-                Toast.makeText(this,"SignIn Successfull",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "SignIn Successfull", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, RemindersActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -57,7 +62,7 @@ class AuthenticationActivity : AppCompatActivity() {
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
                 Log.i(TAG, "Sign in unsuccessful ${response?.error?.errorCode}")
-                Toast.makeText(this,"SignIn failed",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "SignIn failed", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -75,5 +80,11 @@ class AuthenticationActivity : AppCompatActivity() {
                 .build(),
             SIGN_IN_REQUEST_CODE
         )
+    }
+
+    private fun openReminderActivity() {
+        val intent = Intent(this, RemindersActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

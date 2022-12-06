@@ -8,11 +8,8 @@ import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.locationreminders.utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.hamcrest.*
+import org.junit.*
 import org.junit.runner.RunWith
 
 @ExperimentalCoroutinesApi

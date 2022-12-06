@@ -1,7 +1,6 @@
 package com.udacity.project4.locationreminders
 
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil

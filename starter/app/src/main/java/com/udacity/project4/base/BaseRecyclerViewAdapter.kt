@@ -1,10 +1,8 @@
 package com.udacity.project4.base
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import androidx.databinding.*
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 

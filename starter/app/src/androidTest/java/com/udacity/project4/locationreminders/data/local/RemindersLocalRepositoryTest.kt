@@ -8,8 +8,7 @@ import androidx.test.filters.MediumTest
 import com.udacity.project4.locationreminders.data.dto.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
+import org.hamcrest.*
 import org.junit.*
 import org.junit.runner.RunWith
 
@@ -38,6 +37,13 @@ class RemindersLocalRepositoryTest {
     @After
     fun cleanUp() {
         return database.close()
+    }
+
+    @Test
+    fun dataNotFound() = runBlocking {
+        val res = repository.getReminder("123123123")
+        val err = (res is Result.Error)
+        MatcherAssert.assertThat(err, CoreMatchers.`is`(true))
     }
 
     @Test

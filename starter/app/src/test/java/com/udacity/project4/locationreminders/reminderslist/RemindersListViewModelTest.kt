@@ -7,13 +7,10 @@ import com.udacity.project4.locationreminders.data.FakeDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.utils.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.hamcrest.*
+import org.junit.*
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 
@@ -42,6 +39,19 @@ class RemindersListViewModelTest {
     @After
     fun cleanUp() {
         stopKoin()
+    }
+
+    @Test
+    fun shouldReturnError() = runBlocking {
+
+        reminderRepo.returnError(true)
+        saveFakeData()
+        viewModel.loadReminders()
+        MatcherAssert.assertThat(
+            viewModel.showSnackBar.value,
+            CoreMatchers.`is`("Reminders not found")
+        )
+
     }
 
     @Test

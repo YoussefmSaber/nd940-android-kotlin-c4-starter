@@ -1,8 +1,6 @@
 package com.udacity.project4.locationreminders.data.dto
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 /**
