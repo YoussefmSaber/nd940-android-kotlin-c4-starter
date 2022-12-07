@@ -3,20 +3,33 @@ package com.udacity.project4.locationreminders.savereminder.selectreminderlocati
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
+import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
-import com.udacity.project4.base.*
+import com.udacity.project4.base.BaseFragment
+import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSelectLocationBinding
+import com.udacity.project4.locationreminders.*
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.project4.utils.setDisplayHomeAsUpEnableds
 import org.koin.android.ext.android.inject
@@ -95,6 +108,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         else -> super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         Log.i(this.toString(), "Function Called")
@@ -109,6 +123,18 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
+            val packageName = AuthUI.getApplicationContext().packageName
+            Snackbar.make(
+                binding.mapFragment,
+                R.string.permission_denied_explanation,
+                Snackbar.LENGTH_LONG
+            ).setAction(R.string.settings) {
+                startActivity(Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", packageName, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            }.show()
         }
     }
 
@@ -202,6 +228,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             }
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

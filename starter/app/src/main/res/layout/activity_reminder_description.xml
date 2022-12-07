@@ -91,7 +91,7 @@
                 android:textColor="@color/darkTeal"
                 app:layout_column="1"
                 app:layout_columnWeight="2"
-                android:text="@{@string/longtitude_snippet(viewModel.longitude)}"
+                android:text="@{@string/longitude_snippet(viewModel.longitude)}"
                 app:layout_row="3"
                 tools:text="Longitude Here" />
 
