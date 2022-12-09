@@ -38,7 +38,7 @@ import org.mockito.Mockito
 @ExperimentalCoroutinesApi
 //UI Testing
 @MediumTest
-class ReminderListFragmentTest: AutoCloseKoinTest() {
+class ReminderListFragmentTest : AutoCloseKoinTest() {
 
     private lateinit var repo: ReminderDataSource
     private lateinit var appContext: Application
@@ -55,54 +55,43 @@ class ReminderListFragmentTest: AutoCloseKoinTest() {
                     get() as ReminderDataSource
                 )
             }
-            
             single {
                 SaveReminderViewModel(
                     appContext,
                     get() as ReminderDataSource
                 )
             }
-            
-            single {
-                RemindersLocalRepository(
-                    get()
-                ) as ReminderDataSource
-            }
-            
-            single {
-                LocalDB.createRemindersDao(appContext)
-            }
+            single { RemindersLocalRepository(get()) as ReminderDataSource }
+            single { LocalDB.createRemindersDao(appContext) }
         }
-        startKoin { 
+        startKoin {
             modules(listOf(module))
         }
-
         repo = get()
-        runBlocking { 
+
+        runBlocking {
             repo.deleteAllReminders()
         }
     }
 
     @Before
-    fun registerResource() {
+    fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(databindingResouce)
     }
 
     @After
-    fun unregisterResource() {
+    fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(databindingResouce)
     }
 
     @Test
-    fun NavigationTest() {
+    fun NavigationTest()  {
         val scenario = launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
         databindingResouce.monitorFragment(scenario)
-
         val navController = Mockito.mock(NavController::class.java)
-        scenario.onFragment {
+        scenario.onFragment{
             Navigation.setViewNavController(it.view!!, navController)
         }
-
         Espresso.onView(ViewMatchers.withId(R.id.addReminderFAB)).perform(ViewActions.click())
         Mockito.verify(navController).navigate(ReminderListFragmentDirections.toSaveReminder())
     }

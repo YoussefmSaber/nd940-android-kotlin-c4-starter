@@ -119,22 +119,12 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         ) {
             enableMyLocation()
         } else {
+
+            // TODO: HERE
             requestPermissions(
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
-            val packageName = AuthUI.getApplicationContext().packageName
-            Snackbar.make(
-                binding.mapFragment,
-                R.string.permission_denied_explanation,
-                Snackbar.LENGTH_LONG
-            ).setAction(R.string.settings) {
-                startActivity(Intent().apply {
-                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    data = Uri.fromParts("package", packageName, null)
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
-            }.show()
         }
     }
 
@@ -210,7 +200,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun myLocation() {
         val locationProvider = LocationServices
-                .getFusedLocationProviderClient(requireContext())
+            .getFusedLocationProviderClient(requireContext())
         val locationTask = locationProvider.lastLocation
 
         locationTask.addOnCompleteListener(requireActivity()) {
@@ -230,6 +220,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
 
+    @SuppressLint("RestrictedApi")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -240,6 +231,19 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 enableMyLocation()
+            } else {
+                val packageName = AuthUI.getApplicationContext().packageName
+                Snackbar.make(
+                    binding.mapFragment,
+                    R.string.permission_denied_explanation,
+                    Snackbar.LENGTH_LONG
+                ).setAction(R.string.settings) {
+                    startActivity(Intent().apply {
+                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        data = Uri.fromParts("package", packageName, null)
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    })
+                }.show()
             }
         }
     }
