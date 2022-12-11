@@ -15,7 +15,6 @@ class FakeDataSource : ReminderDataSource {
             return Result.Error("Reminders were unable to be retrieved")
         }
         reminderDTO.let { return Result.Success(it) }
-        return Result.Error("Reminders not found")
     }
 
     override suspend fun saveReminder(reminder: ReminderDTO) {
